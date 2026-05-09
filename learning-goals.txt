@@ -1,0 +1,2 @@
+Skill I want to Learn: DevSecOps and AI
+Career Goals: i want to be a MLOPs Engineer in future, for now am learning data engineering, cloud computing and AI & ML, but the ultimate goal is to be able to implement Ai modelswhich consume less resources while remaining very productive and high performance
