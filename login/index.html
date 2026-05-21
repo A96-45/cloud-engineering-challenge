@@ -1,23 +1,244 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Login | CloudOptim</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>CloudOptim Login</title>
+  <!-- Google Fonts for clean typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    /* Login card container */
+    .login-container {
+      width: 100%;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    .login-card {
+      background: white;
+      border-radius: 32px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      padding: 2.5rem 2rem 2.8rem 2rem;
+      transition: transform 0.2s ease;
+    }
+
+    .login-card:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Header section */
+    .login-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .login-header h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      background: linear-gradient(120deg, #1e293b, #2d3e6e);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.3px;
+      margin-bottom: 0.5rem;
+    }
+
+    .login-header p {
+      color: #64748b;
+      font-size: 0.9rem;
+      font-weight: 400;
+    }
+
+    /* Form group styles */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: #334155;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.2px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      color: #94a3b8;
+      font-size: 1.1rem;
+      pointer-events: none;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.85rem 1rem 0.85rem 2.5rem;
+      font-size: 0.95rem;
+      font-family: 'Inter', monospace;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 20px;
+      background: #ffffff;
+      transition: all 0.2s ease;
+      outline: none;
+      color: #0f172a;
+      font-weight: 500;
+    }
+
+    .form-group input:focus {
+      border-color: #7c3aed;
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+    }
+
+    .form-group input::placeholder {
+      color: #cbd5e1;
+      font-weight: 400;
+      font-size: 0.85rem;
+    }
+
+    /* Login button */
+    .login-btn {
+      width: 100%;
+      background: linear-gradient(98deg, #7c3aed 0%, #a855f7 100%);
+      border: none;
+      padding: 0.9rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 10px rgba(124, 58, 237, 0.25);
+      margin-bottom: 1.5rem;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(124, 58, 237, 0.35);
+      background: linear-gradient(98deg, #6d28d9 0%, #9333ea 100%);
+    }
+
+    .login-btn:active {
+      transform: translateY(1px);
+    }
+
+    /* Error message */
+    .error-message {
+      background: #fee2e2;
+      color: #b91c1c;
+      padding: 0.7rem;
+      border-radius: 24px;
+      font-size: 0.8rem;
+      text-align: center;
+      margin-bottom: 1.2rem;
+      display: none;
+      font-weight: 500;
+      border-left: 4px solid #ef4444;
+    }
+
+    /* Dashboard link */
+    .dashboard-link {
+      text-align: center;
+      padding-top: 1rem;
+      border-top: 1px solid #f0f2f5;
+      margin-top: 0.5rem;
+    }
+
+    .dashboard-link a {
+      color: #7c3aed;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .dashboard-link a:hover {
+      color: #5b21b6;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 1.8rem 1.5rem 2rem 1.5rem;
+      }
+      .login-header h1 {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>CloudOptim Login</h1>
-  <p style="color:red;" id="error"></p>
-  <form>
-    <input type="email" placeholder="Email" /><br/><br/>
-    <input type="password" placeholder="Password" /><br/><br/>
-    <button type="submit">Login</button>
-    <br/><br/>
-    <a href="../dashboard/dashboard.html">Go to Dashboard →</a>
-  </form>
-  <script>
-    document.querySelector("form").onsubmit = function(e) {
-      e.preventDefault();
-      document.getElementById("error").textContent = "Please fill in all fields.";
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <h1>CloudOptim Login</h1>
+    </div>
+
+    <div id="error" class="error-message"></div>
+
+    <form>
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <div class="input-wrapper">
+          <span class="input-icon">✉️</span>
+          <input type="email" id="email" placeholder="hello@example.com" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-wrapper">
+          <span class="input-icon">🔒</span>
+          <input type="password" id="password" placeholder="••••••••" />
+        </div>
+      </div>
+
+      <button type="submit" class="login-btn">Login</button>
+
+      <div class="dashboard-link">
+        <a href="../dashboard/dashboard.html">Go to Dashboard →</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.querySelector("form").onsubmit = function(e) {
+    e.preventDefault();
+    const errorDiv = document.getElementById("error");
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    
+    if (!email || !password) {
+      errorDiv.textContent = "❌ Please fill in all fields.";
+      errorDiv.style.display = "block";
+    } else {
+      errorDiv.style.display = "none";
     }
-  </script>
+  }
+</script>
 </body>
 </html>
