@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Spending Reports</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Mulish:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f4ef;
+      --card: #ffffff;
+      --ink: #1a1a2e;
+      --muted: #8b8fa8;
+      --accent: #e8622a;
+      --border: #ede9e3;
+      --font-head: 'Syne', sans-serif;
+      --font-body: 'Mulish', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      padding: 2rem 1.5rem;
+    }
+    .header { margin-bottom: 2rem; }
+    .back-link {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .back-link:hover { color: var(--accent); }
+    .title {
+      font-family: var(--font-head);
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.1;
+    }
+    .title span { color: var(--accent); }
+    .subtitle {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+    }
+    .week-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+    .day-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.1rem 1.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: transform 0.2s;
+      animation: fadeUp 0.4s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .day-card:nth-child(1) { animation-delay: 0.05s; }
+    .day-card:nth-child(2) { animation-delay: 0.10s; }
+    .day-card:nth-child(3) { animation-delay: 0.15s; }
+    .day-card:nth-child(4) { animation-delay: 0.20s; }
+    .day-card:nth-child(5) { animation-delay: 0.25s; }
+    .day-card:hover { transform: translateX(4px); }
+    .day-left { display: flex; align-items: center; gap: 1rem; }
+    .day-icon {
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+    .day-name {
+      font-family: var(--font-head);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+    .day-date { font-size: 0.72rem; color: var(--muted); margin-top: 0.1rem; }
+    .day-right { text-align: right; }
+    .day-amount {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--ink);
+    }
+    .day-status {
+      font-size: 0.68rem;
+      font-weight: 600;
+      margin-top: 0.2rem;
+    }
+    .over { color: #e8622a; }
+    .under { color: #2a9d8f; }
+    .summary-card {
+      background: var(--ink);
+      color: white;
+      border-radius: 24px;
+      padding: 1.8rem;
+    }
+    .summary-label {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.4rem;
+    }
+    .summary-amount {
+      font-family: var(--font-head);
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+    }
+    .summary-amount span { font-size: 1rem; opacity: 0.5; font-weight: 400; }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.2rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .summary-stat .s-label { font-size: 0.68rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.5px; }
+    .summary-stat .s-value { font-family: var(--font-head); font-size: 1rem; font-weight: 700; margin-top: 0.2rem; }
+    .green { color: #2a9d8f; }
+    .red { color: #e8622a; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <a class="back-link" href="../dashboard/dashboard.html">← Back to Dashboard</a>
+    <div class="title">Weekly <span>Report</span></div>
+    <div class="subtitle">Your spending summary for this week</div>
+  </div>
+
+  <div class="week-grid">
+    <div class="day-card">
+      <div class="day-left">
+        <div class="day-icon">📅</div>
+        <div>
+          <div class="day-name">Monday</div>
+          <div class="day-date">May 19, 2026</div>
+        </div>
+      </div>
+      <div class="day-right">
+        <div class="day-amount">KES 2,800</div>
+        <div class="day-status under">✓ Under budget</div>
+      </div>
+    </div>
+    <div class="day-card">
+      <div class="day-left">
+        <div class="day-icon">📅</div>
+        <div>
+          <div class="day-name">Tuesday</div>
+          <div class="day-date">May 20, 2026</div>
+        </div>
+      </div>
+      <div class="day-right">
+        <div class="day-amount">KES 3,450</div>
+        <div class="day-status over">↑ Over budget</div>
+      </div>
+    </div>
+    <div class="day-card">
+      <div class="day-left">
+        <div class="day-icon">📅</div>
+        <div>
+          <div class="day-name">Wednesday</div>
+          <div class="day-date">May 21, 2026</div>
+        </div>
+      </div>
+      <div class="day-right">
+        <div class="day-amount">KES 1,900</div>
+        <div class="day-status under">✓ Under budget</div>
+      </div>
+    </div>
+    <div class="day-card">
+      <div class="day-left">
+        <div class="day-icon">📅</div>
+        <div>
+          <div class="day-name">Thursday</div>
+          <div class="day-date">May 22, 2026</div>
+        </div>
+      </div>
+      <div class="day-right">
+        <div class="day-amount">KES 2,150</div>
+        <div class="day-status under">✓ Under budget</div>
+      </div>
+    </div>
+    <div class="day-card">
+      <div class="day-left">
+        <div class="day-icon">📅</div>
+        <div>
+          <div class="day-name">Friday</div>
+          <div class="day-date">May 23, 2026</div>
+        </div>
+      </div>
+      <div class="day-right">
+        <div class="day-amount">KES —</div>
+        <div class="day-status" style="color:var(--muted)">Not yet recorded</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-card">
+    <div class="summary-label">Week Total</div>
+    <div class="summary-amount"><span>KES </span>10,300</div>
+    <div class="summary-row">
+      <div class="summary-stat">
+        <div class="s-label">Budget</div>
+        <div class="s-value">KES 21,000</div>
+      </div>
+      <div class="summary-stat">
+        <div class="s-label">Spent</div>
+        <div class="s-value red">KES 10,300</div>
+      </div>
+      <div class="summary-stat">
+        <div class="s-label">Remaining</div>
+        <div class="s-value green">KES 10,700</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
