@@ -1,4 +1,5 @@
 APP: Login Module v1.0
+APP: Dashboard Module v2.0
 
 # Linux Fundamentals — NCEP Cloud Engineering
 Assignment submission covering core Linux concepts, practiced on Ubuntu 26.04.

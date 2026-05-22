@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Daily Spending</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Mulish:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f4ef;
+      --card: #ffffff;
+      --ink: #1a1a2e;
+      --muted: #8b8fa8;
+      --accent: #e8622a;
+      --accent2: #2a9d8f;
+      --accent3: #e9c46a;
+      --border: #ede9e3;
+      --font-head: 'Syne', sans-serif;
+      --font-body: 'Mulish', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      padding: 2rem 1.5rem;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 2.5rem;
+    }
+
+    .header-left .greeting {
+      font-family: var(--font-head);
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1px;
+    }
+
+    .header-left .greeting span { color: var(--accent); }
+
+    .header-left .date {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .budget-ring {
+      text-align: center;
+      background: var(--card);
+      border-radius: 20px;
+      padding: 1rem 1.2rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
+
+    .budget-ring .amount {
+      font-family: var(--font-head);
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .budget-ring .label {
+      font-size: 0.68rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 0.2rem;
+    }
+
+    .total-card {
+      background: var(--ink);
+      color: white;
+      border-radius: 24px;
+      padding: 1.8rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .total-card::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 160px; height: 160px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 50%;
+    }
+
+    .total-card::after {
+      content: '';
+      position: absolute;
+      bottom: -30px; left: 30px;
+      width: 100px; height: 100px;
+      background: rgba(232,98,42,0.15);
+      border-radius: 50%;
+    }
+
+    .total-label {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .total-amount {
+      font-family: var(--font-head);
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+
+    .total-amount span {
+      font-size: 1.2rem;
+      font-weight: 400;
+      opacity: 0.6;
+      letter-spacing: 0;
+    }
+
+    .total-sub {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.45);
+      margin-top: 0.8rem;
+    }
+
+    .progress-wrap { margin-top: 1.2rem; }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 0.4rem;
+    }
+
+    .progress-track {
+      height: 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 10px;
+      background: linear-gradient(90deg, var(--accent), #f4a261);
+      animation: fillIn 1s ease forwards;
+    }
+
+    @keyframes fillIn { from { width: 0%; } }
+
+    .section-title {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 1rem;
+      letter-spacing: -0.3px;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .cat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: fadeUp 0.4s ease both;
+    }
+
+    .cat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .cat-card:nth-child(1) { animation-delay: 0.05s; }
+    .cat-card:nth-child(2) { animation-delay: 0.1s; }
+    .cat-card:nth-child(3) { animation-delay: 0.15s; }
+    .cat-card:nth-child(4) { animation-delay: 0.2s; }
+    .cat-card:nth-child(5) { animation-delay: 0.25s; }
+    .cat-card:nth-child(6) { animation-delay: 0.3s; }
+
+    .cat-icon { font-size: 1.5rem; margin-bottom: 0.6rem; display: block; }
+    .cat-name { font-size: 0.72rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 0.3rem; }
+    .cat-amount { font-family: var(--font-head); font-size: 1.1rem; font-weight: 700; color: var(--ink); }
+
+    .cat-bar { height: 3px; background: var(--border); border-radius: 5px; margin-top: 0.7rem; overflow: hidden; }
+    .cat-bar-fill { height: 100%; border-radius: 5px; animation: fillIn 0.8s ease forwards; }
+
+    .tx-list { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 2rem; }
+
+    .tx-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 0.9rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      animation: fadeUp 0.4s ease both;
+    }
+
+    .tx-left { display: flex; align-items: center; gap: 0.75rem; }
+
+    .tx-emoji {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      background: var(--bg);
+    }
+
+    .tx-name { font-size: 0.84rem; font-weight: 600; color: var(--ink); }
+    .tx-time { font-size: 0.7rem; color: var(--muted); margin-top: 0.1rem; }
+    .tx-amount { font-family: var(--font-head); font-size: 0.95rem; font-weight: 700; color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-left">
+      <div class="greeting">My <span>Spending</span><br>Today.</div>
+      <div class="date" id="currentDate"></div>
+    </div>
+    <div class="budget-ring">
+      <div class="amount">KES 3,000</div>
+      <div class="label">Daily Budget</div>
+    </div>
+  </div>
+
+  <div class="total-card">
+    <div class="total-label">Total Spent Today</div>
+    <div class="total-amount"><span>KES </span>2,150</div>
+    <div class="total-sub">KES 850 remaining from your daily budget</div>
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span>0</span>
+        <span>72% used</span>
+        <span>3,000</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" style="width:72%"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">By Category</div>
+  <div class="category-grid">
+    <div class="cat-card">
+      <span class="cat-icon">🍽️</span>
+      <div class="cat-name">Food</div>
+      <div class="cat-amount">KES 650</div>
+      <div class="cat-bar"><div class="cat-bar-fill" style="width:65%;background:#e8622a"></div></div>
+    </div>
+    <div class="cat-card">
+      <span class="cat-icon">🚌</span>
+      <div class="cat-name">Transport</div>
+      <div class="cat-amount">KES 380</div>
+      <div class="cat-bar"><div class="cat-bar-fill" style="width:38%;background:#2a9d8f"></div></div>
+    </div>
+    <div class="cat-card">
+      <span class="cat-icon">📱</span>
+      <div class="cat-name">Airtime</div>
+      <div class="cat-amount">KES 200</div>
+      <div class="cat-bar"><div class="cat-bar-fill" style="width:20%;background:#e9c46a"></div></div>
+    </div>
+    <div class="cat-card">
+      <span class="cat-icon">🎮</span>
+      <div class="cat-name">Entertainment</div>
+      <div class="cat-amount">KES 350</div>
+      <div class="cat-bar"><div class="cat-bar-fill" style="width:35%;background:#a8dadc"></div></div>
+    </div>
+    <div class="cat-card">
+      <span class="cat-icon">🏠</span>
+      <div class="cat-name">Rent</div>
+      <div class="cat-amount">KES 400</div>
+      <div class="cat-bar"><div class="cat-bar-fill" style="width:40%;background:#457b9d"></div></div>
+    </div>
+    <div class="cat-card">
+      <span class="cat-icon">🛒</span>
+      <div class="cat-name">Shopping</div>
+      <div class="cat-amount">KES 170</div>
+      <div class="cat-bar"><div class="cat-bar-fill" style="width:17%;background:#f4a261"></div></div>
+    </div>
+  </div>
+
+  <div class="section-title">Recent Transactions</div>
+  <div class="tx-list">
+    <div class="tx-item">
+      <div class="tx-left">
+        <div class="tx-emoji">🍛</div>
+        <div>
+          <div class="tx-name">Lunch — Mama Oliech</div>
+          <div class="tx-time">12:30 PM</div>
+        </div>
+      </div>
+      <div class="tx-amount">-350</div>
+    </div>
+    <div class="tx-item">
+      <div class="tx-left">
+        <div class="tx-emoji">🚌</div>
+        <div>
+          <div class="tx-name">Matatu — CBD to Westlands</div>
+          <div class="tx-time">8:15 AM</div>
+        </div>
+      </div>
+      <div class="tx-amount">-80</div>
+    </div>
+    <div class="tx-item">
+      <div class="tx-left">
+        <div class="tx-emoji">☕</div>
+        <div>
+          <div class="tx-name">Coffee — Java House</div>
+          <div class="tx-time">7:45 AM</div>
+        </div>
+      </div>
+      <div class="tx-amount">-300</div>
+    </div>
+    <div class="tx-item">
+      <div class="tx-left">
+        <div class="tx-emoji">📱</div>
+        <div>
+          <div class="tx-name">Safaricom Airtime</div>
+          <div class="tx-time">7:00 AM</div>
+        </div>
+      </div>
+      <div class="tx-amount">-200</div>
+    </div>
+  </div>
+
+  <script>
+    const d = new Date();
+    document.getElementById('currentDate').textContent = d.toLocaleDateString('en-KE', {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    });
+  </script>
+
+  <div style="text-align:center; margin: 1rem 0 2rem 0;">
+    <a href="../reports/reports.html" style="
+      display: inline-block;
+      background: #1a1a2e;
+      color: white;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.9rem 2.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      letter-spacing: -0.3px;
+    ">View Full Reports →</a>
+  </div>
+
+</body>
+</html>
