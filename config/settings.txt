@@ -1,3 +1,4 @@
 APP_NAME=SpendTracker
 DB_HOST=localhost
 API_KEY=my-safe-api-key
+LOG_LEVEL=info
