@@ -1,0 +1,43 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cloud-optimizer
+  namespace: default
+  labels:
+    app: cloud-optimizer
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    nginx.ingress.kubernetes.io/enable-modsecurity: "true"
+spec:
+  tls:
+  - hosts:
+    - cloud-optimizer.example.com
+    - api.cloud-optimizer.example.com
+    secretName: cloud-optimizer-tls
+  rules:
+  - host: cloud-optimizer.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: cloud-optimizer
+            port:
+              number: 80
+  - host: api.cloud-optimizer.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: cloud-optimizer
+            port:
+              number: 80
