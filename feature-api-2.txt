@@ -1,0 +1,4 @@
+API Feature: User Endpoints
+- Create GET /users endpoint
+- Create POST /users endpoint
+- Add request validation
