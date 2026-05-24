@@ -1,0 +1,4 @@
+API Feature: Documentation
+- Create API documentation
+- Add endpoint examples
+- Document error codes
