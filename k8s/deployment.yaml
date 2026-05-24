@@ -7,7 +7,7 @@ metadata:
     app: cloud-optimizer
     version: v1.0
 spec:
-  replicas: 3
+  replicas: 5  # CHANGED: Scaled from 3 to 5
   selector:
     matchLabels:
       app: cloud-optimizer
@@ -59,3 +59,28 @@ spec:
       volumes:
       - name: logs
         emptyDir: {}
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: cloud-optimizer-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: cloud-optimizer
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
